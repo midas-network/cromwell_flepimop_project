@@ -1,0 +1,4 @@
+{
+	"flepiMoPWorkflow.model_configuration_yml": "config_sample_2pop.yml",
+	"flepiMoPWorkflow.model_executable": "gempyor-simulate"
+}

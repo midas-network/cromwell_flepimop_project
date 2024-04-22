@@ -7,3 +7,14 @@ model_output*/
 *.Rproj
 renv*
 .Rproj.user
+
+change_java.sh
+.DS_Store
+
+!model_output/*.md
+
+cromwell-executions/
+cromwell-workflow-logs/
+cromwell-86.jar
+womtool-86.jar
+
