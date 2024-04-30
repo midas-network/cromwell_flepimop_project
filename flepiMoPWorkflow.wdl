@@ -46,4 +46,3 @@ workflow flepiMoPWorkflow {
             move_model_output_script = "./scripts/sh/move_model_output.sh"
     }
 }
-
