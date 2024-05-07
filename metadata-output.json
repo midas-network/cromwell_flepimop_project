@@ -1,0 +1,119 @@
+{
+  "workflowName": "modelWorkflow",
+  "workflowProcessingEvents": [{
+    "cromwellId": "cromid-ddbcb6c",
+    "description": "PickedUp",
+    "timestamp": "2024-05-06T19:00:08.586Z",
+    "cromwellVersion": "86"
+  }, {
+    "cromwellId": "cromid-ddbcb6c",
+    "description": "Finished",
+    "timestamp": "2024-05-06T19:29:40.017Z",
+    "cromwellVersion": "86"
+  }],
+  "actualWorkflowLanguageVersion": "1.0",
+  "submittedFiles": {
+    "workflow": "version 1.0\n\ntask run_Model {\n    input {\n        File setup_os_script\n        File install_git_script\n        File clone_repository_script\n        File copy_model_output_script\n        String model_git_repository\n        File install_model_script\n        File model_configuration_yml\n        String model_executable\n        File run_model_script\n        String model_output_folder\n        String model_runtime_docker\n    }\n\n    String model_output_files = \"model_output_files.txt\"\n\n    command {\n        ${setup_os_script}\n        ${install_git_script}\n        ${clone_repository_script} \"${model_git_repository}\"\n        ${install_model_script}\n        ${run_model_script} \"${model_executable}\" \"${model_configuration_yml}\"\n        find ./\"${model_output_folder}\" -name '*.parquet' > \"${model_output_files}\"\n        python3 ${copy_model_output_script} \"${model_output_files}\"\n    }\n\n    runtime {\n        docker: \"${model_runtime_docker}\"\n    }\n\n    output {\n        Array[File] output_files = read_lines(model_output_files)\n    }\n}\n\nworkflow modelWorkflow {\n    input {\n        File setup_os_script\n        File install_git_script\n        File clone_repository_script\n        File copy_model_output_script\n    }\n\n    call run_Model {\n        input:\n            setup_os_script = setup_os_script,\n            install_git_script = install_git_script,\n            clone_repository_script = clone_repository_script,\n            copy_model_output_script = copy_model_output_script\n    }\n}\n",
+    "root": "",
+    "options": "{\n\n}",
+    "inputs": "{\n  \"modelWorkflow.run_Model.model_configuration_yml\": \"config_sample_2pop.yml\",\n  \"modelWorkflow.run_Model.model_executable\": \"gempyor-simulate\",\n  \"modelWorkflow.run_Model.model_git_repository\": \"https://github.com/HopkinsIDD/flepiMoP.git\",\n  \"modelWorkflow.run_Model.model_output_folder\": \"model_output\",\n  \"modelWorkflow.run_Model.install_model_script\": \"./scripts/sh/flepimop/install_model.sh\",\n  \"modelWorkflow.run_Model.run_model_script\": \"./scripts/sh/flepimop/run_model.sh\",\n  \"modelWorkflow.run_Model.model_runtime_docker\": \"rocker/verse:latest\",\n  \"modelWorkflow.setup_os_script\": \"./scripts/sh/setup_os.sh\",\n  \"modelWorkflow.install_git_script\": \"./scripts/sh/install_git.sh\",\n  \"modelWorkflow.clone_repository_script\": \"./scripts/sh/clone_git_repository.sh\",\n  \"modelWorkflow.copy_model_output_script\": \"scripts/python/copy_model_output.py\"\n}\n\n",
+    "workflowUrl": "modelWorkflow.wdl",
+    "labels": "{}"
+  },
+  "calls": {
+    "modelWorkflow.run_Model": [{
+      "executionStatus": "Done",
+      "stdout": "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/stdout",
+      "backendStatus": "Done",
+      "commandLine": "/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-710979368/setup_os.sh\n/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-710979368/install_git.sh\n/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-710979368/clone_git_repository.sh \"https://github.com/HopkinsIDD/flepiMoP.git\"\n/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-1095727923/install_model.sh\n/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-1095727923/run_model.sh \"gempyor-simulate\" \"/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/-1556192397/config_sample_2pop.yml\"\nfind ./\"model_output\" -name '*.parquet' > \"model_output_files.txt\"\npython3 /cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/inputs/1566734815/copy_model_output.py \"model_output_files.txt\"",
+      "shardIndex": -1,
+      "outputs": {
+        "output_files": ["/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/./model_output/sample_2pop/20240506_192641/seir/000000001.20240506_192641.seir.parquet", "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/./model_output/sample_2pop/20240506_192641/spar/000000001.20240506_192641.spar.parquet"]
+      },
+      "runtimeAttributes": {
+        "maxRetries": "0",
+        "failOnStderr": "false",
+        "continueOnReturnCode": "0",
+        "docker": "rocker/verse:latest"
+      },
+      "callCaching": {
+        "allowResultReuse": false,
+        "effectiveCallCachingMode": "CallCachingOff"
+      },
+      "inputs": {
+        "copy_model_output_script": "scripts/python/copy_model_output.py",
+        "clone_repository_script": "./scripts/sh/clone_git_repository.sh",
+        "model_output_folder": "model_output",
+        "setup_os_script": "./scripts/sh/setup_os.sh",
+        "run_model_script": "./scripts/sh/flepimop/run_model.sh",
+        "install_model_script": "./scripts/sh/flepimop/install_model.sh",
+        "model_configuration_yml": "config_sample_2pop.yml",
+        "model_git_repository": "https://github.com/HopkinsIDD/flepiMoP.git",
+        "model_executable": "gempyor-simulate",
+        "install_git_script": "./scripts/sh/install_git.sh",
+        "model_runtime_docker": "rocker/verse:latest",
+        "model_output_files": "model_output_files.txt"
+      },
+      "returnCode": 0,
+      "jobId": "97250",
+      "backend": "LocalExample",
+      "start": "2024-05-06T19:00:11.257Z",
+      "end": "2024-05-06T19:29:39.331Z",
+      "dockerImageUsed": "rocker/verse@sha256:ceae16a621386e24189b993f002e150adf55ddd8255cf0b6f8f6a89ee0cf2d9d",
+      "stderr": "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/stderr",
+      "callRoot": "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model",
+      "attempt": 1,
+      "executionEvents": [{
+        "startTime": "2024-05-06T19:00:11.265Z",
+        "description": "Pending",
+        "endTime": "2024-05-06T19:00:11.273Z"
+      }, {
+        "startTime": "2024-05-06T19:00:20.457Z",
+        "description": "RunningJob",
+        "endTime": "2024-05-06T19:29:39.330Z"
+      }, {
+        "startTime": "2024-05-06T19:00:18.546Z",
+        "description": "WaitingForValueStore",
+        "endTime": "2024-05-06T19:00:18.551Z"
+      }, {
+        "startTime": "2024-05-06T19:00:18.551Z",
+        "description": "PreparingJob",
+        "endTime": "2024-05-06T19:00:20.457Z"
+      }, {
+        "startTime": "2024-05-06T19:00:11.273Z",
+        "description": "RequestingExecutionToken",
+        "endTime": "2024-05-06T19:00:18.546Z"
+      }, {
+        "startTime": "2024-05-06T19:29:39.330Z",
+        "description": "UpdatingJobStore",
+        "endTime": "2024-05-06T19:29:39.331Z"
+      }]
+    }]
+  },
+  "outputs": {
+    "modelWorkflow.run_Model.output_files": ["/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/./model_output/sample_2pop/20240506_192641/seir/000000001.20240506_192641.seir.parquet", "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443/call-run_Model/execution/./model_output/sample_2pop/20240506_192641/spar/000000001.20240506_192641.spar.parquet"]
+  },
+  "workflowRoot": "/Users/jbs82/Documents/dev/cromwell_flepimop_project/cromwell-executions/modelWorkflow/565fbcef-5a14-4aa3-9487-1edc33517443",
+  "actualWorkflowLanguage": "WDL",
+  "status": "Succeeded",
+  "end": "2024-05-06T19:29:40.017Z",
+  "start": "2024-05-06T19:00:08.616Z",
+  "id": "565fbcef-5a14-4aa3-9487-1edc33517443",
+  "inputs": {
+    "modelWorkflow.run_Model.model_git_repository": "https://github.com/HopkinsIDD/flepiMoP.git",
+    "install_git_script": "./scripts/sh/install_git.sh",
+    "clone_repository_script": "./scripts/sh/clone_git_repository.sh",
+    "setup_os_script": "./scripts/sh/setup_os.sh",
+    "modelWorkflow.run_Model.install_model_script": "./scripts/sh/flepimop/install_model.sh",
+    "modelWorkflow.run_Model.model_runtime_docker": "rocker/verse:latest",
+    "modelWorkflow.run_Model.run_model_script": "./scripts/sh/flepimop/run_model.sh",
+    "modelWorkflow.run_Model.model_configuration_yml": "config_sample_2pop.yml",
+    "modelWorkflow.run_Model.model_output_folder": "model_output",
+    "modelWorkflow.run_Model.model_executable": "gempyor-simulate",
+    "copy_model_output_script": "scripts/python/copy_model_output.py"
+  },
+  "labels": {
+    "cromwell-workflow-id": "cromwell-565fbcef-5a14-4aa3-9487-1edc33517443"
+  },
+  "submission": "2024-05-06T19:00:08.561Z"
+}

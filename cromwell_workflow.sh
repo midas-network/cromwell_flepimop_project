@@ -122,19 +122,19 @@ else
   exit 1
 fi
 
-echo "Verifying model definition file provided as model_specs.json..."
-if [[ -f model_specs.json ]]; then
-  echo "  model_specs.json found."
+echo "Verifying model definition file provided as modelWorkflow_inputs.json..."
+if [[ -f modelWorkflow_inputs.json ]]; then
+  echo "  modelWorkflow_inputs.json found."
 else
-  echo "  model_specs.json not found..."
+  echo "  modelWorkflow_inputs.json not found..."
   echo "    Please specify the model configuation yml and "
-  echo "    the model executable in the model_specs.json file."
+  echo "    the model executable in the modelWorkflow_inputs.json file."
   exit 1
 fi
 
 echo "Running Cromwell workflow ..."
-# java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run idmWorkflow.wdl
-java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run flepiMoPWorkflow.wdl --inputs model_specs.json
+# java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run idmWorkflow.wdl --metadata-output metadata-output.json
+java -Dconfig.file=cromwell_config.conf -jar cromwell-86.jar run modelWorkflow.wdl --inputs modelWorkflow_inputs.json
 
 echo ""
 echo "******************************************************************************"

@@ -1,4 +1,0 @@
-{
-	"flepiMoPWorkflow.model_configuration_yml": "config_sample_2pop_inference.yml",
-	"flepiMoPWorkflow.model_executable": "Rscript  flepiMoP/flepimop/main_scripts/inference_main.R"
-}
