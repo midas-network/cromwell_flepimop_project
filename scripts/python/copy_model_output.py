@@ -1,20 +1,30 @@
 import os
 import sys
 
-outputFileListingString = sys.argv[1] 
-print("copying model output... " + outputFileListingString)
-outputFileListing = open(outputFileListingString,'r')
-lines = outputFileListing.readlines()
-
 target_topdir = "/midas"
+model_output_directory = sys.argv[1]
+directory_to_walk = "./" + model_output_directory
+output_file_types = list(sys.argv[2].strip('[').strip(']').split(','))
+extensions = tuple(oft for oft in output_file_types)
 
-count = 0
-for line in lines:
-	count += 1
-	outputFile = line.strip()
-	print("copying file... " + outputFile)
-	outputFileDir = outputFile[0:outputFile.rfind('/') + 1]
-	os.system('mkdir -p ' + target_topdir + '/' + outputFileDir + ' && cp ' + outputFile + ' ' + target_topdir + '/' + outputFile)
+output_file_listing = open(sys.argv[3], "w")
+model_name = sys.argv[4]
 
+#print(model_output_directory)
+#print(output_file_types)
+#print(extensions)
 
-outputFileListing.close()
+for root, dirs, files in os.walk(directory_to_walk, topdown=False):
+   for name in files:
+      if output_file_types == ["all"] or name.endswith(extensions):
+         output_file = os.path.join(root, name).strip()
+         output_file_listing.write(output_file + "\n")
+         output_file_dir = output_file[0:output_file.rfind('/') + 1]
+         new_output_file = output_file.replace(model_output_directory, model_output_directory + "/" + model_name)
+         new_output_file_dir = new_output_file[0:new_output_file.rfind('/') + 1]
+         print("copying file: " + output_file)
+         print("new_output_file_dir: " + new_output_file_dir)
+         print("new output file: " + new_output_file)
+         os.system('mkdir -p ' + target_topdir + '/' + new_output_file_dir + ' && cp ' + output_file + ' ' + target_topdir + '/' + new_output_file)
+
+output_file_listing.close()

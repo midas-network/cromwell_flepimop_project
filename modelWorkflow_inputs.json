@@ -1,9 +1,10 @@
 {
+  "modelWorkflow.run_Model.name_of_this_model_run": "flepimop",
   "modelWorkflow.run_Model.model_configuration_yml": "config_sample_2pop.yml",
   "modelWorkflow.run_Model.model_executable": "gempyor-simulate",
   "modelWorkflow.run_Model.model_git_repository": "https://github.com/HopkinsIDD/flepiMoP.git",
   "modelWorkflow.run_Model.model_output_folder": "model_output",
-  "modelWorkflow.run_Model.model_output_file_types": "parquet",
+  "modelWorkflow.run_Model.model_output_file_types": "[parquet]",
   "modelWorkflow.run_Model.install_model_script": "./scripts/sh/flepimop/install_model.sh",
   "modelWorkflow.run_Model.run_model_script": "./scripts/sh/flepimop/run_model.sh",
   "modelWorkflow.run_Model.model_runtime_docker": "rocker/verse:latest",

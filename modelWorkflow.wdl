@@ -9,6 +9,7 @@ task run_Model {
         File copy_model_output_script
         String model_git_repository
         File install_model_script
+        String name_of_this_model_run
         File model_configuration_yml
         String model_executable
         File run_model_script
@@ -17,7 +18,7 @@ task run_Model {
         String model_runtime_docker
     }
 
-    String model_output_files = "model_output_files.txt"
+    String model_output_file_listing = "model_output_files.txt"
 
     command {
         ${setup_os_script}
@@ -25,9 +26,8 @@ task run_Model {
         ${clone_repository_script} "${model_git_repository}"
         ${install_model_script}
         ${run_model_script} "${model_executable}" "${model_configuration_yml}"
-        find ./"${model_output_folder}" -name '*.${model_output_file_types}' > "${model_output_files}"
-        python3 ${copy_model_output_script} "${model_output_files}"
-        ${copy_cromwell_logs_script} "${model_output_folder}"
+        python3 ${copy_model_output_script} "${model_output_folder}" "${model_output_file_types}" "${model_output_file_listing}" "${name_of_this_model_run}"
+        ${copy_cromwell_logs_script} "${model_output_folder}" "${name_of_this_model_run}"
     }
 
     runtime {
@@ -35,7 +35,7 @@ task run_Model {
     }
 
     output {
-        Array[File] output_files = read_lines(model_output_files)
+        Array[File] output_files = read_lines(model_output_file_listing)
     }
 }
 
