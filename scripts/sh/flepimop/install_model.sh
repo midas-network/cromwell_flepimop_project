@@ -1,5 +1,14 @@
 #!/bin/bash
 
+model_input=$1
+
+apt-get -y install libudunits2-dev  # R package "units" needs this installed
+
+apt-get -y install python3.11
+apt-get -y install python3-pip
+apt-get -y install python-is-python3
+#python -m ensurepip --upgrade
+
 export FLEPI_PATH=$(pwd)/flepiMoP
 export PROJECT_PATH=$(pwd)
 export DATA_PATH=$(pwd)
@@ -19,12 +28,12 @@ Rscript build/local_install.R  # Install R packages
 cd $PROJECT_PATH       # goes to your project repository
 #rm -r model_output/ # delete the outputs of past run if there are
 
-if [[ -d /midas/model_input ]]; 
+if [[ -d /midas/"$model_input" ]]; 
 then
-	mkdir model_input/
-	cp /midas/model_input/*.* model_input/
+	mkdir "$model_input"/
+	cp /midas/"$model_input"/*.* "$model_input"/
 else
-	echo "  Error: Couldn't find model_input folder.  Please create the folder and place your input file in the folder."
+	echo "  Error: Couldn't find $model_input folder.  Please create the folder and place your input file in the folder."
 	exit 1
 fi
 

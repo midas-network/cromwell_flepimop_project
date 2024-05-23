@@ -20,7 +20,8 @@ for root, dirs, files in os.walk(directory_to_walk, topdown=False):
          output_file = os.path.join(root, name).strip()
          output_file_listing.write(output_file + "\n")
          output_file_dir = output_file[0:output_file.rfind('/') + 1]
-         new_output_file = output_file.replace(model_output_directory, model_output_directory + "/" + model_name)
+         #new_output_file = output_file.replace(model_output_directory, model_output_directory + "/" + model_name)
+         new_output_file = output_file.replace(model_output_directory, "model_output/" + model_name)
          new_output_file_dir = new_output_file[0:new_output_file.rfind('/') + 1]
          print("copying file: " + output_file)
          print("new_output_file_dir: " + new_output_file_dir)
