@@ -15,4 +15,3 @@
   "modelWorkflow.copy_cromwell_logs_script": "./scripts/sh/copy_cromwell_logs.sh",
   "modelWorkflow.copy_model_output_script": "scripts/python/copy_model_output.py"
 }
-
